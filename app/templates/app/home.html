@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+        font-family: 'Poppins', sans-serif;
+        scroll-behavior: smooth;
+    }
+
+    .glass-nav {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    .gradient-border {
+        background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+        padding: 2px;
+    }
+
+    .animate-float {
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .skill-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .skill-icon:hover {
+        transform: translateY(-5px);
+    }
+</style>
+</head>
+<body class="bg-gray-900 text-white">
+<!-- Navigation -->
+<nav class="fixed w-full z-50 glass-nav transition-colors duration-300">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="#" class="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                Unifolio
+            </a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="hover:text-blue-500 transition-colors">About</a>
+                <a href="#skills" class="hover:text-blue-500 transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-blue-500 transition-colors">Projects</a>
+                <a href="#timeline" class="hover:text-blue-500 transition-colors">Timeline</a>
+                <a href="#contact" class="hover:text-blue-500 transition-colors">Contact</a>
+            </div>
+
+            <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden py-4">
+            <div class="flex flex-col space-y-4">
+                <a href="#about" class="hover:text-blue-500 transition-colors">About</a>
+                <a href="#skills" class="hover:text-blue-500 transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-blue-500 transition-colors">Projects</a>
+                <a href="#timeline" class="hover:text-blue-500 transition-colors">Timeline</a>
+                <a href="#contact" class="hover:text-blue-500 transition-colors">Contact</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"></div>
+        <div class="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-20 w-72 h-72 bg-purple-500/20 rounded-full filter blur-3xl animate-pulse"></div>
+    </div>
+
+    {% for author in authors %}
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+            <!-- Text Content -->
+            <div class="md:w-1/2 text-center md:text-left">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4" id="hero-title">
+                    Hi, I'm <span class="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">{{author.name}}</span>
+                </h1>
+                <div class="text-xl md:text-2xl text-gray-400 mb-8">
+                    <span id="type-text" class="text-blue-500"></span>
+                </div>
+                <button class="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-full transition-all duration-300 transform hover:scale-105">
+                    Download CV
+                </button>
+            </div>
+
+            <!-- Hero Image -->
+            <div class="md:w-1/2 relative">
+                <div class="relative w-64 h-64 mx-auto">
+                    <!-- Main Image -->
+                    <div class="gradient-border rounded-full">
+                        <div class="rounded-full overflow-hidden">
+                            <img src="{{ author.profile.url }}" alt="Profile" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Floating Tech Icons -->
+                    <div class="absolute top-0 right-0 bg-white/10 backdrop-blur-lg p-3 rounded-full animate-float">
+                        <i class="fab fa-python text-2xl text-blue-500"></i>
+                    </div>
+                    <div class="absolute bottom-0 left-0 bg-white/10 backdrop-blur-lg p-3 rounded-full animate-float" style="animation-delay: 1s">
+                        <i class="fab fa-react text-2xl text-cyan-500"></i>
+                    </div>
+                    <div class="absolute top-1/2 -right-4 bg-white/10 backdrop-blur-lg p-3 rounded-full animate-float" style="animation-delay: 2s">
+                        <i class="fas fa-brain text-2xl text-purple-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <i class="fas fa-chevron-down text-2xl text-gray-400"></i>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 bg-gray-800/50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+            About <span class="text-blue-500">Me</span>
+        </h2>
+        <div class="max-w-3xl mx-auto text-gray-300 text-center">
+            <p>{{author.about_author}}</p>
+        </div>
+    </div>
+</section>
+
+{% endfor %}
+<!-- Skills Section -->
+<section id="skills" class="py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+            My <span class="text-blue-500">Skills</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Skill Cards -->
+            {% for skill in skills %}
+            <div class="skill-icon flex flex-col items-center p-6 bg-gray-800/50 rounded-xl text-center backdrop-blur-sm">
+                <i class="{{ skill.icon_class }} text-3xl mb-3"></i>
+                <h3 class="font-semibold text-white text-lg">{{ skill.skill }}</h3>
+            </div>
+            {% empty %}
+            <p class="text-white text-center">No skills found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+<!-- Projects Section -->
+<section id="projects" class="py-20 bg-gray-800/50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+            My <span class="text-blue-500">Projects</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Cards -->
+            {% for project in projects %}
+            <div class="bg-gray-900/50 rounded-xl overflow-hidden backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">  <!-- Load project image -->
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2">{{ project.title }}</h3>  <!-- Project title -->
+                    <p class="text-gray-400 mb-4">{{ project.description }}</p>  <!-- Project description -->
+                    <div class="flex flex-wrap gap-2">
+                        {% for tech in project.techstack.all %}  <!-- Loop through technology stack -->
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-500 rounded-full text-sm">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-white">No projects found.</p>  <!-- If no projects exist -->
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section id="timeline" class="py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+            My <span class="text-blue-500">Journey</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <!-- Education Timeline -->
+            <div>
+                <h3 class="text-2xl font-bold mb-6 text-center md:text-left">Education</h3>
+                <div class="relative pl-8 border-l-2 border-blue-500">
+                    {% for education in educations %}
+                    <div class="mb-10 timeline-item text-blue-500">
+                        <div class="absolute w-4 h-4 -left-[9px] bg-blue-500 rounded-full"></div>
+                        <div class="bg-gray-800/50 p-6 rounded-lg backdrop-blur-sm ml-4">
+                            <h4 class="text-xl font-bold text-white">{{ education.degree }}</h4>
+                            <p class="text-gray-400">{{ education.start_year }}{% if education.end_year %} - {{ education.end_year }}{% endif %} | {{ education.institution }}</p>
+                            <p class="text-gray-300 mt-2">{{ education.description }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-white">No education entries found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Professional Timeline -->
+            <div>
+                <h3 class="text-2xl font-bold mb-6 text-center md:text-left">Experience</h3>
+                <div class="relative pl-8 border-l-2 border-green-500">
+                    {% for experience in experiences %}
+                    <div class="mb-10 timeline-item text-green-500">
+                        <div class="absolute w-4 h-4 -left-[9px] bg-green-500 rounded-full"></div>
+                        <div class="bg-gray-800/50 p-6 rounded-lg backdrop-blur-sm ml-4">
+                            <h4 class="text-xl font-bold text-white">{{ experience.position }}</h4>
+                            <p class="text-gray-400">{{ experience.start_year }}{% if experience.end_year %} - {{ experience.end_year }}{% endif %} | {{ experience.company }}</p>
+                            <p class="text-gray-300 mt-2">{{ experience.description }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-white">No experience entries found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Contact Section -->
+<section id="contact" class="py-20 bg-gray-800/50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">
+            Get In <span class="text-blue-500">Touch</span>
+        </h2>
+
+        <div class="flex justify-center space-x-8">
+            {% for link in links %}
+            <a href="{{link.link}}" target="_blank" 
+               class="p-4 bg-gray-900/50 rounded-full hover:bg-gray-700/50 transition-colors backdrop-blur-sm">
+                <i class="{{link.class_field}}"></i>
+            </a>
+           
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-8 bg-gray-900">
+    <div class="container mx-auto px-4 text-center text-gray-400">
+        <p>© 2024 un1u3. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+    // Mobile menu toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+
+    
+    // Typed.js initialization
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Create an array to hold all the strings
+            let strings = [];
+    
+            // Loop through each author
+            {% for author in authors %}
+                // Loop through each item in the author's typewritter
+                {% for item in author.typewritter.all %}
+                    strings.push('{{ item.name|escapejs }}'); // Escape JS special characters
+                {% endfor %}
+            {% endfor %}
+    
+            // Initialize Typed.js only once
+            new Typed('#type-text', {
+                strings: strings,
+                typeSpeed: 50,
+                backSpeed: 30,
+                backDelay: 1500,
+                loop: true
+            });
+        });
+    
+    
+
+
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Navbar scroll effect
+    ScrollTrigger.create({
+        start: 'top -80',
+        end: 99999,
+        toggleClass: {
+            className: 'bg-gray-900/80',
+            targets: 'nav'
+        }
+    });
+
+    // Hero section animations
+    gsap.from("#hero-title", {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        delay: 0.5
+    });
+
+    // Skill cards animation
+    gsap.from(".skill-icon", {
+        scrollTrigger: {
+            trigger: "#skills",
+            start: "top center"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: 0.2
+    });
+
+    // Project cards animation
+    gsap.from(".project-card", {
+        scrollTrigger: {
+            trigger: "#projects",
+            start: "top center"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: 0.2
+    });
+
+    // Timeline items animation
+    gsap.from(".timeline-item", {
+        scrollTrigger: {
+            trigger: "#timeline",
+            start: "top center"
+        },
+        opacity: 0,
+        x: -50,
+        duration: 0.8,
+        stagger: 0.2
+    });
+</script>
+
+
+{% endblock %}c
